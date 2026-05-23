@@ -1,4 +1,5 @@
 import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { useMemo } from 'react';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { colors, spacing } from '../../theme';
@@ -146,8 +147,23 @@ export default function HistogramOverlay({
   shutterSpeed = '—',
 }: HistogramOverlayProps) {
   const { width: screenW } = useWindowDimensions();
-  const recipe = useEditorStore((s) => s.recipe);
-  const bins = generateBins(recipe);
+
+  // Subscribe to only the fields that affect histogram shape —
+  // avoids re-running generateBins on every unrelated state change.
+  const exposure    = useEditorStore((s) => s.recipe.light.exposure);
+  const contrast    = useEditorStore((s) => s.recipe.light.contrast);
+  const highlights  = useEditorStore((s) => s.recipe.light.highlights);
+  const shadows     = useEditorStore((s) => s.recipe.light.shadows);
+  const temperature = useEditorStore((s) => s.recipe.color.temperature);
+  const presetLutId = useEditorStore((s) => s.recipe.preset?.lutId ?? null);
+  const presetIntensity = useEditorStore((s) => s.recipe.preset?.intensity ?? 0);
+
+  const bins = useMemo(() => {
+    // Re-derive a minimal recipe snapshot for generateBins
+    const recipe = useEditorStore.getState().recipe;
+    return generateBins(recipe);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exposure, contrast, highlights, shadows, temperature, presetLutId, presetIntensity]);
 
   // ─── Drag position ───
   const posX = useSharedValue(spacing.edgeMargin);

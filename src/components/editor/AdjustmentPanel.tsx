@@ -1,5 +1,6 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import PrecisionSlider from './PrecisionSlider';
+import CropPanel from './CropPanel';
 import { spacing } from '../../theme';
 import type { EditorTab } from '../../store/editorStore';
 import type { EditRecipe } from '../../engine/EditRecipe';
@@ -69,6 +70,14 @@ export default function AdjustmentPanel({
   onSlidingStart,
   onSlidingComplete,
 }: AdjustmentPanelProps) {
+  // Geometry tab has its own dedicated panel (crop + rotation)
+  if (activeTab === 'geometry') {
+    return <CropPanel rotationValue={recipe.geometry.rotation}
+      onRotationChange={(v) => onValueChange('geometry', 'rotation', v)}
+      onSlidingStart={onSlidingStart}
+    />;
+  }
+
   const config = TAB_SLIDERS[activeTab];
   if (!config || config.sliders.length === 0) return null;
 

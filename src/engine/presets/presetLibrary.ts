@@ -839,6 +839,276 @@ const SILVER_GELATIN: FilmPreset = {
 };
 
 // =============================================================================
+// BLACK & WHITE — MASTER PHOTOGRAPHERS (6 more presets)
+// Inspired by the most celebrated B&W photographers in history.
+// Each conversion matrix and tonal curve is tuned to replicate their
+// signature rendering style.
+// =============================================================================
+
+/** Ansel Adams — Zone System precision
+ *  Full tonal range from Zone 0 (pure black) to Zone X (pure white).
+ *  Every shadow retains texture; every highlight holds detail.
+ *  Slight selenium warm tone on deep shadows. No grain — large-format plates.
+ */
+const ZONE_SYSTEM: FilmPreset = {
+  id: 'zone-system',
+  name: 'Zone System',
+  category: 'Black & White',
+  description: 'Ansel Adams — Full tonal range, 10-zone precision. Deep blacks with shadow texture. Faint selenium shadow tone.',
+  useCase: 'Landscapes, architecture, long exposure, fine-art prints, any scene with rich tonal range',
+  colorMatrix: [
+    // Luminosity weights with slight red bias: open skies go darker, skin brighter
+    0.28, 0.62, 0.10, 0, 0,
+    0.28, 0.62, 0.10, 0, 0,
+    0.28, 0.62, 0.10, 0, 0,
+    0, 0, 0, 1, 0,
+  ],
+  toneCurves: {
+    master: {
+      blackPoint: 0.01,        // Near-zero — film base + fog only
+      whitePoint: 0.995,       // Full white — Zone X
+      shadowContrast: 0.50,    // Precise separation in shadows (Zone III–IV)
+      highlightRolloff: 0.58,  // Gentle shoulder — highlights hold detail (Zone VIII)
+      midtonePivot: 0.50,
+    },
+    red: { blackPoint: 0.01, whitePoint: 0.995, shadowContrast: 0.50, highlightRolloff: 0.56, midtonePivot: 0.50 },
+    green: { blackPoint: 0.01, whitePoint: 0.995, shadowContrast: 0.50, highlightRolloff: 0.58, midtonePivot: 0.50 },
+    blue: { blackPoint: 0.01, whitePoint: 0.995, shadowContrast: 0.50, highlightRolloff: 0.60, midtonePivot: 0.50 },
+  },
+  splitTone: {
+    shadowHue: 25,             // Warm selenium shadows — Ansel's darkroom choice
+    shadowSaturation: 0.05,
+    highlightHue: 40,
+    highlightSaturation: 0.015,
+    balance: -0.2,
+  },
+  hslAdjustments: [],
+  grain: NO_GRAIN,             // 4×5 and 8×10 view camera — no perceptible grain
+  saturationBoost: 0,
+  vibranceBoost: 0,
+};
+
+/** Henri Cartier-Bresson — The Decisive Moment
+ *  Documentary B&W: natural tonal rendering, honest mid-contrast.
+ *  Standard luminosity conversion — nothing added, nothing removed.
+ *  Classic 35mm grain from Tri-X in a Leica.
+ */
+const DECISIVE_MOMENT: FilmPreset = {
+  id: 'decisive-moment',
+  name: 'Decisive Moment',
+  category: 'Black & White',
+  description: 'Henri Cartier-Bresson — Honest documentary rendering. Natural luminosity, moderate contrast, classic 35mm grain.',
+  useCase: 'Street, reportage, documentary, candid, everyday life',
+  colorMatrix: [
+    // Standard photographic luminosity weights
+    0.21, 0.72, 0.07, 0, 0,
+    0.21, 0.72, 0.07, 0, 0,
+    0.21, 0.72, 0.07, 0, 0,
+    0, 0, 0, 1, 0,
+  ],
+  toneCurves: {
+    master: {
+      blackPoint: 0.04,        // Slightly lifted — newsprint rendering
+      whitePoint: 0.97,
+      shadowContrast: 0.52,    // Moderate — truthful shadows
+      highlightRolloff: 0.60,
+      midtonePivot: 0.49,
+    },
+    red: { blackPoint: 0.04, whitePoint: 0.97, shadowContrast: 0.52, highlightRolloff: 0.59, midtonePivot: 0.49 },
+    green: { blackPoint: 0.04, whitePoint: 0.97, shadowContrast: 0.52, highlightRolloff: 0.60, midtonePivot: 0.49 },
+    blue: { blackPoint: 0.045, whitePoint: 0.97, shadowContrast: 0.51, highlightRolloff: 0.61, midtonePivot: 0.49 },
+  },
+  splitTone: IDENTITY_SPLIT_TONE,  // Pure — no toning, truth above aesthetics
+  hslAdjustments: [],
+  grain: {
+    intensity: 0.14,           // Tri-X 400 pushed in Leica — visible, honest grain
+    size: 1.6,
+    luminanceResponse: 0.65,
+  },
+  saturationBoost: 0,
+  vibranceBoost: 0,
+};
+
+/** Sebastião Salgado — Biblical Drama
+ *  Extreme contrast, deep impenetrable shadows, luminous highlights.
+ *  Used in "Workers" and "Genesis" — otherworldly, monumental feel.
+ *  Red-channel boost darkens skies and separates tones dramatically.
+ */
+const BIBLICAL_SHADOW: FilmPreset = {
+  id: 'biblical-shadow',
+  name: 'Biblical Shadow',
+  category: 'Black & White',
+  description: 'Sebastião Salgado — Extreme contrast, impenetrable shadows, luminous highlights. Epic, monumental.',
+  useCase: 'Dramatic portraits, rugged landscapes, labour, epic scenes, strong directional light',
+  colorMatrix: [
+    // Heavy red-channel bias: sky/blue scenes go very dark, warm skin tones go bright
+    0.45, 0.48, 0.07, 0, -0.02,
+    0.45, 0.48, 0.07, 0, -0.02,
+    0.45, 0.48, 0.07, 0, -0.02,
+    0, 0, 0, 1, 0,
+  ],
+  toneCurves: {
+    master: {
+      blackPoint: 0.01,        // Absolute blacks — shadow detail not a priority
+      whitePoint: 0.97,
+      shadowContrast: 0.72,    // Very steep — mid-tones crush into black
+      highlightRolloff: 0.42,  // Hard shoulder — highlights clip sharply
+      midtonePivot: 0.44,      // Dark weight: scale tips toward shadows
+    },
+    red: { blackPoint: 0.01, whitePoint: 0.97, shadowContrast: 0.74, highlightRolloff: 0.40, midtonePivot: 0.43 },
+    green: { blackPoint: 0.01, whitePoint: 0.97, shadowContrast: 0.70, highlightRolloff: 0.43, midtonePivot: 0.44 },
+    blue: { blackPoint: 0.015, whitePoint: 0.96, shadowContrast: 0.68, highlightRolloff: 0.45, midtonePivot: 0.45 },
+  },
+  splitTone: {
+    shadowHue: 30,             // Faint warm muddy shadows
+    shadowSaturation: 0.04,
+    highlightHue: 50,
+    highlightSaturation: 0.02,
+    balance: -0.2,
+  },
+  hslAdjustments: [],
+  grain: {
+    intensity: 0.12,           // Visible grain adds texture to huge prints
+    size: 1.7,
+    luminanceResponse: 0.7,
+  },
+  saturationBoost: 0,
+  vibranceBoost: 0,
+};
+
+/** Diane Arbus — Flat Grey Gaze
+ *  Eerily flat, grey, low-contrast tonality. No romantic blacks.
+ *  Everything rendered at a clinical midtone — subjects can't hide.
+ *  Heavy grain from Mamiya medium format + flash + pushed film.
+ */
+const ARBUS_FLAT: FilmPreset = {
+  id: 'arbus-flat',
+  name: 'Arbus Flat',
+  category: 'Black & White',
+  description: 'Diane Arbus — Clinical flat tones, lifted blacks, grey everything. Subjects are exposed, nowhere to hide.',
+  useCase: 'Intimate portraits, social documentary, street, confrontational subjects, flash photography',
+  colorMatrix: [
+    // Even conversion — no filter bias, equal clinical weight
+    0.22, 0.70, 0.08, 0, 0,
+    0.22, 0.70, 0.08, 0, 0,
+    0.22, 0.70, 0.08, 0, 0,
+    0, 0, 0, 1, 0,
+  ],
+  toneCurves: {
+    master: {
+      blackPoint: 0.15,        // Heavily lifted — no deep blacks
+      whitePoint: 0.90,        // Compressed whites — no bright highlight glow
+      shadowContrast: 0.32,    // Very low — flat throughout
+      highlightRolloff: 0.70,  // Gradual — nothing pops
+      midtonePivot: 0.52,
+    },
+    red: { blackPoint: 0.15, whitePoint: 0.90, shadowContrast: 0.33, highlightRolloff: 0.68, midtonePivot: 0.52 },
+    green: { blackPoint: 0.15, whitePoint: 0.90, shadowContrast: 0.32, highlightRolloff: 0.70, midtonePivot: 0.52 },
+    blue: { blackPoint: 0.16, whitePoint: 0.90, shadowContrast: 0.31, highlightRolloff: 0.71, midtonePivot: 0.53 },
+  },
+  splitTone: {
+    shadowHue: 200,            // Slight cool cast — alienating, institutional
+    shadowSaturation: 0.04,
+    highlightHue: 200,
+    highlightSaturation: 0.02,
+    balance: 0,
+  },
+  hslAdjustments: [],
+  grain: {
+    intensity: 0.22,           // Heavy grain — medium format flash pushed to ISO 1600
+    size: 2.0,
+    luminanceResponse: 0.5,
+  },
+  saturationBoost: 0,
+  vibranceBoost: 0,
+};
+
+/** Edward Weston — Platinum Gradient
+ *  Ultra-smooth tonal gradients, micro-contrast within each zone.
+ *  Vegetables, nudes, shells, rocks — every curve is perfect.
+ *  Green-weighted: skin and foliage render as butter-smooth gradients.
+ *  Warm palladium/platinum tone (not selenium — warmer, more organic).
+ */
+const PLATINUM_GRADIENT: FilmPreset = {
+  id: 'platinum-gradient',
+  name: 'Platinum Gradient',
+  category: 'Black & White',
+  description: 'Edward Weston — Buttery smooth gradients, platinum/palladium warmth. Organic textures are perfection.',
+  useCase: 'Still life, nudes, macro, natural textures, shells, rock, foliage, sculptural subjects',
+  colorMatrix: [
+    // Green-weighted: soft skin and foliage gradients, balanced rendering
+    0.20, 0.68, 0.12, 0, 0,
+    0.20, 0.68, 0.12, 0, 0,
+    0.20, 0.68, 0.12, 0, 0,
+    0, 0, 0, 1, 0,
+  ],
+  toneCurves: {
+    master: {
+      blackPoint: 0.03,
+      whitePoint: 0.98,
+      shadowContrast: 0.44,    // Gentle — shadows open into rich detail
+      highlightRolloff: 0.68,  // Very gentle — highlights glow organically
+      midtonePivot: 0.52,      // Slightly bright — subjects are luminous
+    },
+    red: { blackPoint: 0.035, whitePoint: 0.98, shadowContrast: 0.45, highlightRolloff: 0.67, midtonePivot: 0.52 },
+    green: { blackPoint: 0.03, whitePoint: 0.98, shadowContrast: 0.44, highlightRolloff: 0.68, midtonePivot: 0.52 },
+    blue: { blackPoint: 0.025, whitePoint: 0.975, shadowContrast: 0.43, highlightRolloff: 0.65, midtonePivot: 0.51 },
+  },
+  splitTone: {
+    shadowHue: 32,             // Warm earthy brown shadows — palladium chemistry
+    shadowSaturation: 0.08,
+    highlightHue: 45,          // Creamy warm highlights
+    highlightSaturation: 0.04,
+    balance: -0.1,
+  },
+  hslAdjustments: [],
+  grain: {
+    intensity: 0.04,           // Barely there — 8×10 orthochromatic film
+    size: 0.9,
+    luminanceResponse: 0.3,
+  },
+  saturationBoost: 0,
+  vibranceBoost: 0,
+};
+
+/** Helmut Newton — Graphic Fashion
+ *  Graphic, high-contrast fashion. Skin glows white against ink-black shadows.
+ *  Pools, penthouse suites, stilettos. Bold tonal blocks.
+ *  Red-weighted: warm skin tones surge forward, everything else recedes.
+ */
+const GRAPHIC_FASHION: FilmPreset = {
+  id: 'graphic-fashion',
+  name: 'Graphic Fashion',
+  category: 'Black & White',
+  description: 'Helmut Newton — Graphic high-contrast. Skin glows, shadows are black pools. Bold fashion tonality.',
+  useCase: 'Fashion, glamour, nude portraits, urban architecture, strong contrast scenes',
+  colorMatrix: [
+    // Heavy red bias: warm skin tones are bright, cool shadows are black
+    0.50, 0.42, 0.08, 0, 0,
+    0.50, 0.42, 0.08, 0, 0,
+    0.50, 0.42, 0.08, 0, 0,
+    0, 0, 0, 1, 0,
+  ],
+  toneCurves: {
+    master: {
+      blackPoint: 0.01,        // Absolute black — pools of shadow
+      whitePoint: 0.98,
+      shadowContrast: 0.68,    // Very high — midtones snap to black quickly
+      highlightRolloff: 0.45,  // Hard — highlights stay bright until they clip
+      midtonePivot: 0.50,
+    },
+    red: { blackPoint: 0.01, whitePoint: 0.99, shadowContrast: 0.70, highlightRolloff: 0.43, midtonePivot: 0.51 },
+    green: { blackPoint: 0.01, whitePoint: 0.97, shadowContrast: 0.67, highlightRolloff: 0.46, midtonePivot: 0.49 },
+    blue: { blackPoint: 0.015, whitePoint: 0.95, shadowContrast: 0.65, highlightRolloff: 0.48, midtonePivot: 0.48 },
+  },
+  splitTone: IDENTITY_SPLIT_TONE,  // Pure neutral — Newton's prints were clean
+  hslAdjustments: [],
+  grain: NO_GRAIN,                  // Studio strobes — grain is weakness
+  saturationBoost: 0,
+  vibranceBoost: 0,
+};
+
+// =============================================================================
 // CREATIVE (2 presets)
 // =============================================================================
 
@@ -2344,6 +2614,12 @@ export const PRESET_LIBRARY: FilmPreset[] = [
   // Black & White
   TRI_X_400,
   SILVER_GELATIN,
+  ZONE_SYSTEM,
+  DECISIVE_MOMENT,
+  BIBLICAL_SHADOW,
+  ARBUS_FLAT,
+  PLATINUM_GRADIENT,
+  GRAPHIC_FASHION,
   // Minimalist (3 — new category)
   PURE_LIGHT,
   QUIET_CONTRAST,

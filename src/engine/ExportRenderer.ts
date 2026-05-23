@@ -25,18 +25,26 @@ function multiplyMat(a: number[], b: number[]): number[] {
   return out;
 }
 
-/** Load source image into Skia. Tries fromURI first; falls back to expo-file-system base64. */
+/** Load source image into Skia.
+ *  Primary: fetch → arrayBuffer → fromBytes (works for file://, content://, http://)
+ *  Fallback: expo-file-system base64 (last resort for stubborn content:// URIs)
+ */
 async function loadSkiaImage(uri: string): Promise<SkImage | null> {
-  // Primary: Skia.Data.fromURI (works for file:// and remote URIs)
+  // Primary: fetch API handles all Android URI schemes reliably
   try {
-    const data = await Skia.Data.fromURI(uri);
-    if (data) {
-      const img = Skia.Image.MakeImageFromEncoded(data);
-      if (img) return img;
+    const response = await fetch(uri);
+    if (response.ok) {
+      const buffer = await response.arrayBuffer();
+      const bytes = new Uint8Array(buffer);
+      const data = Skia.Data.fromBytes(bytes);
+      if (data) {
+        const img = Skia.Image.MakeImageFromEncoded(data);
+        if (img) return img;
+      }
     }
   } catch {}
 
-  // Fallback: read as base64 via expo-file-system (reliable for content:// URIs on Android)
+  // Fallback: expo-file-system base64 (reliable for content:// URIs that fetch may not handle)
   try {
     const base64 = await FileSystem.readAsStringAsync(uri, {
       encoding: FileSystem.EncodingType.Base64,
@@ -119,6 +127,33 @@ export async function renderFullResExport(
     }
     if (!surface) return null;
 
+    // Determine source region — apply crop if set (normalised 0–1 relative to source)
+    const cr = recipe.geometry.cropRect;
+    const srcRect = cr
+      ? Skia.XYWHRect(cr.x * srcW, cr.y * srcH, cr.width * srcW, cr.height * srcH)
+      : Skia.XYWHRect(0, 0, srcW, srcH);
+
+    // When crop is active, re-derive output dims from cropped aspect ratio
+    if (cr) {
+      const cropSrcW = cr.width * srcW;
+      const cropSrcH = cr.height * srcH;
+      const cropFitScale = (targetW > 0 && targetH > 0)
+        ? Math.min(targetW / cropSrcW, targetH / cropSrcH)
+        : 1.0;
+      const cropScale = Math.min(cropFitScale, 1.0);
+      outW = Math.max(1, Math.round(cropSrcW * cropScale));
+      outH = Math.max(1, Math.round(cropSrcH * cropScale));
+      // Recreate surface with correct crop dimensions
+      surface = null;
+      for (let attempt = 0; attempt < 4; attempt++) {
+        surface = Skia.Surface.Make(outW, outH);
+        if (surface) break;
+        outW = Math.max(1, Math.round(outW * 0.5));
+        outH = Math.max(1, Math.round(outH * 0.5));
+      }
+      if (!surface) return null;
+    }
+
     const canvas = surface.getCanvas();
     const paint = Skia.Paint();
     if (!isIdentity(mat)) {
@@ -126,7 +161,7 @@ export async function renderFullResExport(
     }
     canvas.drawImageRect(
       src,
-      Skia.XYWHRect(0, 0, srcW, srcH),
+      srcRect,
       Skia.XYWHRect(0, 0, outW, outH),
       paint,
     );

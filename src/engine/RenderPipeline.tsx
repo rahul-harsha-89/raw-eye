@@ -6,6 +6,7 @@ import {
   ColorMatrix,
   RuntimeShader,
   Group,
+  rect,
   type SkImage,
 } from '@shopify/react-native-skia';
 import { useWindowDimensions } from 'react-native';
@@ -137,18 +138,32 @@ const RenderPipeline = forwardRef<RenderPipelineRef, RenderPipelineProps>(({
     };
   }, [image, canvasWidth, canvasHeight]);
 
+  // If a crop rect is set (normalised 0–1 relative to source image),
+  // compute its canvas-space bounds for snapshot and visual clip.
+  const cropCanvasRect = useMemo(() => {
+    const cr = recipe.geometry.cropRect;
+    if (!cr) return null;
+    return {
+      x: Math.round(imageRect.x + cr.x * imageRect.width),
+      y: Math.round(imageRect.y + cr.y * imageRect.height),
+      width: Math.round(cr.width * imageRect.width),
+      height: Math.round(cr.height * imageRect.height),
+    };
+  }, [recipe.geometry.cropRect, imageRect]);
+
   useImperativeHandle(ref, () => ({
     makeSnapshot: () => {
       if (!canvasRef.current) return null;
-      // Crop to image bounds — excludes letterbox/pillarbox black bars
-      return canvasRef.current.makeImageSnapshot({
+      // Use crop bounds if active, otherwise full image bounds (no letterbox)
+      const bounds = cropCanvasRect ?? {
         x: Math.round(imageRect.x),
         y: Math.round(imageRect.y),
         width: Math.round(imageRect.width),
         height: Math.round(imageRect.height),
-      });
+      };
+      return canvasRef.current.makeImageSnapshot(bounds);
     },
-  }), [imageRect]);
+  }), [imageRect, cropCanvasRect]);
 
   // Manual adjustment color matrix
   const colorMatrix = useMemo(() => buildColorMatrix(recipe), [recipe]);
@@ -376,6 +391,15 @@ const RenderPipeline = forwardRef<RenderPipelineRef, RenderPipelineProps>(({
           source={grainEffect!}
           uniforms={{ resolution: res, ...grainUniforms }}
         />
+        {renderTree}
+      </Group>
+    );
+  }
+
+  // Layer 10: Crop clip (outermost — applied after all effects)
+  if (cropCanvasRect) {
+    renderTree = (
+      <Group clip={rect(cropCanvasRect.x, cropCanvasRect.y, cropCanvasRect.width, cropCanvasRect.height)}>
         {renderTree}
       </Group>
     );
