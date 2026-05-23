@@ -6,6 +6,7 @@ import LandingScreen from '../screens/LandingScreen';
 import PresetLibraryScreen from '../screens/PresetLibraryScreen';
 import AIStyleScreen from '../screens/AIStyleScreen';
 import ExportScreen from '../screens/ExportScreen';
+import HelpScreen from '../screens/HelpScreen';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -15,6 +16,7 @@ export type RootStackParamList = {
   PresetLibrary: undefined;
   AIStyle: undefined;
   Export: undefined;
+  Help: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -35,6 +37,7 @@ export default function RootNavigator() {
       <Stack.Screen name="PresetLibrary" component={PresetLibraryScreen} />
       <Stack.Screen name="AIStyle" component={AIStyleScreen} />
       <Stack.Screen name="Export" component={ExportScreen} />
+      <Stack.Screen name="Help" component={HelpScreen} />
     </Stack.Navigator>
   );
 }

@@ -3,6 +3,9 @@ import { View, Pressable, StyleSheet, Alert, ActivityIndicator } from 'react-nat
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import * as FileSystem from 'expo-file-system/legacy';
+import { useNavigation } from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import type { RootStackParamList } from '../../navigation/RootNavigator';
 import { colors, spacing } from '../../theme';
 import { useEditorStore } from '../../store/editorStore';
 import { useExportStore } from '../../store/exportStore';
@@ -55,7 +58,10 @@ function ToolItem({ icon, label, description, onPress, active, destructive, load
   );
 }
 
+type ToolsNavProp = StackNavigationProp<RootStackParamList>;
+
 export default function ToolsPanel() {
+  const navigation = useNavigation<ToolsNavProp>();
   const {
     compareMode,
     setCompareMode,
@@ -208,6 +214,20 @@ export default function ToolsPanel() {
           description="Clear all adjustments"
           onPress={handleResetAll}
           destructive
+        />
+      </View>
+
+      {/* Help */}
+      <View style={styles.section}>
+        <Text variant="labelCaps" color="onSurfaceVariant">HELP</Text>
+        <ToolItem
+          icon="menu-book"
+          label="User Guide"
+          description="How every option works — explained"
+          onPress={() => {
+            Haptics.selectionAsync();
+            navigation.navigate('Help');
+          }}
         />
       </View>
     </View>
