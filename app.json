@@ -1,0 +1,70 @@
+{
+  "expo": {
+    "name": "RAW Eye",
+    "slug": "raw-eye",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "updates": {
+      "enabled": true,
+      "url": "https://u.expo.dev/ad71f5f5-f70d-461e-8e05-340a9f3d5498"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#131313"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.raweye.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#131313"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.raweye.app",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.ACCESS_MEDIA_LOCATION",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO",
+        "android.permission.READ_MEDIA_AUDIO",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "plugins": [
+      "expo-updates",
+      "expo-font",
+      "expo-asset",
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "RAW Eye needs access to your photo library to import and save photos.",
+          "savePhotosPermission": "RAW Eye needs permission to save edited photos to your gallery.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "RAW Eye needs access to your photos for editing."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ad71f5f5-f70d-461e-8e05-340a9f3d5498"
+      }
+    },
+    "owner": "rahul-harsha-29"
+  }
+}
