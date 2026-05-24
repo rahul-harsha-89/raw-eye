@@ -41,6 +41,16 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
+      - name: Download ESRGAN TFLite model
+        run: |
+          mkdir -p assets/models
+          curl -L "https://storage.googleapis.com/tfhub-lite-models/captain-pool/lite-model/esrgan-tf2/1/default/1.tflite" \
+            -o assets/models/esrgan.tflite \
+            --max-time 120 \
+            --fail \
+            && echo "Model downloaded: $(du -sh assets/models/esrgan.tflite)" \
+            || (echo "WARNING: ESRGAN model download failed — upscaler will be unavailable" && touch assets/models/esrgan.tflite)
+
       - name: Build APK (local, no quota used)
         run: eas build --local --platform android --profile preview --non-interactive
         env:

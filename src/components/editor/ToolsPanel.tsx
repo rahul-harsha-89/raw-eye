@@ -200,6 +200,21 @@ export default function ToolsPanel() {
         />
 
         <ToolItem
+          icon="auto-fix-high"
+          label="AI Upscale"
+          description="4× neural super-resolution — on-device"
+          onPress={() => {
+            if (!imageUri) {
+              Alert.alert('No Image', 'Open an image first.');
+              return;
+            }
+            Haptics.selectionAsync();
+            navigation.navigate('Upscale');
+          }}
+          disabled={!imageUri}
+        />
+
+        <ToolItem
           icon="zoom-in"
           label="Flatten & Enhance"
           description="Bake edits into source for re-editing"

@@ -41,10 +41,14 @@
         "android.permission.RECORD_AUDIO"
       ]
     },
+    "assetBundlePatterns": [
+      "assets/models/**"
+    ],
     "plugins": [
       "expo-updates",
       "expo-font",
       "expo-asset",
+      "react-native-fast-tflite",
       [
         "expo-media-library",
         {
