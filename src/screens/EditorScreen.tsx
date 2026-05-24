@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Image, View, StyleSheet, useWindowDimensions } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
@@ -20,6 +20,7 @@ import BottomNavBar from '../components/editor/BottomNavBar';
 import InlinePresetPanel from '../components/editor/InlinePresetPanel';
 import InlineAIStylePanel from '../components/editor/InlineAIStylePanel';
 import ToolsPanel from '../components/editor/ToolsPanel';
+import CropOverlay from '../components/editor/CropOverlay';
 
 type EditorNavProp = StackNavigationProp<RootStackParamList, 'Editor'>;
 type EditorRouteProp = RouteProp<RootStackParamList, 'Editor'>;
@@ -48,6 +49,7 @@ export default function EditorScreen() {
   } = useEditorStore();
 
   const setCapturedSnapshot = useExportStore((s) => s.setCapturedSnapshot);
+  const [histogramVisible, setHistogramVisible] = useState(true);
 
   // Initialise store image on first mount so Tools panel can access dimensions
   const routeImageUri = route.params?.imageUri ?? '';
@@ -120,10 +122,13 @@ export default function EditorScreen() {
         onExport={handleExport}
         canUndo={canUndo()}
         canRedo={canRedo()}
+        onHelp={() => navigation.navigate('Help')}
       />
 
       <View style={[styles.canvas, { height: canvasHeight }]}>
-        <HistogramOverlay />
+        {histogramVisible && (
+          <HistogramOverlay onClose={() => setHistogramVisible(false)} />
+        )}
         {compareMode && (
           <View style={styles.compareLabel}>
             <View style={styles.compareBadge}>
@@ -141,6 +146,9 @@ export default function EditorScreen() {
           />
         ) : (
           <View style={styles.placeholder} />
+        )}
+        {activeBottomNav === 'edit' && activeTab === 'geometry' && imageUri && (
+          <CropOverlay canvasWidth={screenWidth} canvasHeight={canvasHeight} />
         )}
       </View>
 

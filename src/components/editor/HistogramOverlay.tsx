@@ -1,9 +1,10 @@
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View, Pressable } from 'react-native';
 import { useMemo } from 'react';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { colors, spacing } from '../../theme';
 import Text from '../Text';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useEditorStore } from '../../store/editorStore';
 import type { EditRecipe } from '../../engine/EditRecipe';
 import { getPresetById } from '../../engine/presets';
@@ -139,12 +140,14 @@ interface HistogramOverlayProps {
   iso?: string;
   aperture?: string;
   shutterSpeed?: string;
+  onClose?: () => void;
 }
 
 export default function HistogramOverlay({
   iso = '—',
   aperture = '—',
   shutterSpeed = '—',
+  onClose,
 }: HistogramOverlayProps) {
   const { width: screenW } = useWindowDimensions();
 
@@ -193,11 +196,16 @@ export default function HistogramOverlay({
   return (
     <GestureDetector gesture={panGesture}>
       <Animated.View style={[styles.container, animStyle]}>
-        {/* EXIF strip */}
+        {/* EXIF strip + close button */}
         <View style={styles.exifRow}>
           <Text variant="monoData" color="onSurface">ISO {iso}</Text>
           <Text variant="monoData" color="onSurface">f/{aperture}</Text>
           <Text variant="monoData" color="onSurface">{shutterSpeed}s</Text>
+          {onClose && (
+            <Pressable onPress={onClose} hitSlop={8} style={styles.closeBtn}>
+              <MaterialIcons name="close" size={12} color="rgba(255,255,255,0.55)" />
+            </Pressable>
+          )}
         </View>
 
         {/* Histogram bars — stacked R/G/B with transparency */}
@@ -269,5 +277,11 @@ const styles = StyleSheet.create({
     height: 4,
     borderRadius: 2,
     backgroundColor: 'rgba(255,255,255,0.25)',
+  },
+  closeBtn: {
+    width: 16,
+    height: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

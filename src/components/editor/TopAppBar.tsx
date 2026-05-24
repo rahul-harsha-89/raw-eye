@@ -12,6 +12,7 @@ interface TopAppBarProps {
   onExport: () => void;
   canUndo: boolean;
   canRedo: boolean;
+  onHelp?: () => void;
 }
 
 export default function TopAppBar({
@@ -21,6 +22,7 @@ export default function TopAppBar({
   onExport,
   canUndo,
   canRedo,
+  onHelp,
 }: TopAppBarProps) {
   return (
     <View style={styles.container}>
@@ -47,9 +49,16 @@ export default function TopAppBar({
           </Pressable>
         </View>
       </View>
-      <Pressable onPress={onExport} style={styles.exportBtn} hitSlop={8}>
-        <Text variant="labelCaps" color="primary">EXPORT</Text>
-      </Pressable>
+      <View style={styles.right}>
+        {onHelp && (
+          <Pressable onPress={onHelp} style={styles.iconBtn} hitSlop={8}>
+            <MaterialIcons name="help-outline" size={20} color={colors.onSurfaceVariant} />
+          </Pressable>
+        )}
+        <Pressable onPress={onExport} style={styles.exportBtn} hitSlop={8}>
+          <Text variant="labelCaps" color="primary">EXPORT</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -84,6 +93,11 @@ const styles = StyleSheet.create({
   },
   disabled: {
     opacity: 0.3,
+  },
+  right: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.unit,
   },
   exportBtn: {
     height: spacing.touchTarget,

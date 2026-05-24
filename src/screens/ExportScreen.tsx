@@ -22,8 +22,8 @@ const FORMATS: ExportFormat[] = ['jpeg', 'png'];
 const EXPORT_SIZES = [
   { key: 'original', label: 'Original', badge: 'Full source resolution', targetWidth: 0,    targetHeight: 0    },
   { key: 'social',   label: 'Social',   badge: '1080 × 1080',            targetWidth: 1080, targetHeight: 1080 },
-  { key: 'hd',       label: 'HD',       badge: '1920 × 1080',            targetWidth: 1920, targetHeight: 1080 },
-  { key: '4k',       label: '4K',       badge: '3840 × 2160',            targetWidth: 3840, targetHeight: 2160 },
+  { key: 'hd',       label: 'HD',       badge: 'Max 1920px',              targetWidth: 1920, targetHeight: 1920 },
+  { key: '4k',       label: '4K',       badge: 'Max 3840px',              targetWidth: 3840, targetHeight: 3840 },
   { key: 'print',    label: 'Print A4', badge: '3508 × 2480  ·  300dpi', targetWidth: 3508, targetHeight: 2480 },
 ] as const;
 
