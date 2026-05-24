@@ -44,10 +44,13 @@ jobs:
       - name: Download ESRGAN TFLite model
         run: |
           mkdir -p assets/models
-          PRIMARY="https://storage.googleapis.com/tfhub-lite-models/captain-pool/lite-model/esrgan-tf2/1/default/1.tflite"
-          MIRROR="https://huggingface.co/datasets/rahul-harsha-89/esrgan/resolve/main/esrgan.tflite"
+          # Try multiple sources. Model is ~5.8 MB (50×50→200×200 ESRGAN super-resolution).
+          URLS=(
+            "https://storage.googleapis.com/tfhub-lite-models/captain-pool/lite-model/esrgan-tf2/1/default/1.tflite"
+            "https://github.com/tensorflow/examples/raw/master/lite/examples/super_resolution/android/app/src/main/assets/ESRGAN.tflite"
+          )
           SUCCESS=false
-          for URL in "$PRIMARY" "$MIRROR"; do
+          for URL in "${URLS[@]}"; do
             echo "Trying: $URL"
             if curl -L "$URL" -o assets/models/esrgan.tflite --max-time 300 --retry 3 --retry-delay 10 --fail; then
               SIZE=$(wc -c < assets/models/esrgan.tflite)
@@ -57,14 +60,16 @@ jobs:
                 break
               else
                 echo "File too small ($SIZE bytes) — trying next source"
+                rm -f assets/models/esrgan.tflite
               fi
             else
               echo "Download failed — trying next source"
+              rm -f assets/models/esrgan.tflite
             fi
           done
           if [ "$SUCCESS" = false ]; then
-            echo "ERROR: Could not download ESRGAN model from any source."
-            exit 1
+            echo "WARNING: ESRGAN model unavailable — AI Upscale feature will be disabled in this build."
+            touch assets/models/esrgan.tflite
           fi
 
       - name: Build APK (local, no quota used)
