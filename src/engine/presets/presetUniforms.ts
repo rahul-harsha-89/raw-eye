@@ -141,8 +141,8 @@ export function buildFilmUniforms(preset: FilmPreset, intensity: number): FilmSh
     ],
     splitToneB: preset.splitTone.balance,
 
-    // Saturation & vibrance
-    satVibrance: [preset.saturationBoost, preset.vibranceBoost],
+    // Saturation & vibrance — hard-capped to prevent oversaturation regardless of preset values
+    satVibrance: [Math.min(preset.saturationBoost, 1.10), Math.min(preset.vibranceBoost, 1.15)],
 
     // HSL adjustments (pad to 6 slots)
     hsl0A: hslCount > 0 ? hslToUniformA(hslAdj[0]) : EMPTY_HSL_A,

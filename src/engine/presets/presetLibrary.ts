@@ -18,7 +18,7 @@ import {
 
 const PORTRA_400: FilmPreset = {
   id: 'portra-400',
-  name: 'Portra 400',
+  name: 'Portra',
   category: 'Film Emulation',
   description: 'Kodak\'s iconic portrait film. Warm shadows, gentle highlight rolloff, flattering skin tones.',
   useCase: 'Portraits, weddings, golden hour, street',
@@ -81,7 +81,7 @@ const PORTRA_400: FilmPreset = {
 
 const VELVIA_50: FilmPreset = {
   id: 'velvia-50',
-  name: 'Velvia 50',
+  name: 'Velvia',
   category: 'Film Emulation',
   description: 'Fuji\'s legendary landscape film. Extreme saturation, deep blacks, punchy greens and reds.',
   useCase: 'Landscapes, nature, autumn foliage, sunsets',
@@ -145,7 +145,7 @@ const VELVIA_50: FilmPreset = {
 
 const CINESTILL_800T: FilmPreset = {
   id: 'cinestill-800t',
-  name: 'Cinestill 800T',
+  name: 'Cinestill',
   category: 'Film Emulation',
   description: 'Tungsten cinema stock. Blue shadows, neon reds, cinematic night tones.',
   useCase: 'Night photography, urban, neon signs, street at night',
@@ -209,7 +209,7 @@ const CINESTILL_800T: FilmPreset = {
 
 const EKTAR_100: FilmPreset = {
   id: 'ektar-100',
-  name: 'Ektar 100',
+  name: 'Ektar',
   category: 'Film Emulation',
   description: 'Kodak\'s vivid color negative. Punchy, saturated, fine grain. Great for bold landscapes.',
   useCase: 'Landscapes, travel, architecture, vivid scenes',
@@ -277,7 +277,7 @@ const EKTAR_100: FilmPreset = {
 
 const GOLDEN_HOUR: FilmPreset = {
   id: 'golden-hour',
-  name: 'Golden Hour',
+  name: 'Golden',
   category: 'Landscape',
   description: 'Enhances warm light, deepens skies, brings out sunset/sunrise magic.',
   useCase: 'Sunsets, sunrise, golden hour landscapes, warm light scenes',
@@ -337,7 +337,7 @@ const GOLDEN_HOUR: FilmPreset = {
 
 const MISTY_DAWN: FilmPreset = {
   id: 'misty-dawn',
-  name: 'Misty Dawn',
+  name: 'Misty',
   category: 'Landscape',
   description: 'Ethereal atmosphere. Lifted shadows, soft contrast, dreamy pastel tones for foggy mornings.',
   useCase: 'Fog, mist, forest, mountain morning, lakes',
@@ -400,7 +400,7 @@ const MISTY_DAWN: FilmPreset = {
 
 const DRAMATIC_STORM: FilmPreset = {
   id: 'dramatic-storm',
-  name: 'Dramatic Storm',
+  name: 'Storm',
   category: 'Landscape',
   description: 'High contrast, deep shadows, moody skies. For dramatic weather and rugged terrain.',
   useCase: 'Storm clouds, mountains, dramatic skies, rugged coast, dark landscapes',
@@ -595,7 +595,7 @@ const EDITORIAL: FilmPreset = {
 
 const TEAL_ORANGE: FilmPreset = {
   id: 'teal-orange',
-  name: 'Teal & Orange',
+  name: 'Teal',
   category: 'Moody & Cinematic',
   description: 'The iconic Hollywood color grade. Complementary teal shadows + warm highlights.',
   useCase: 'Cinematic, travel, urban, portraits with character',
@@ -659,7 +659,7 @@ const TEAL_ORANGE: FilmPreset = {
 
 const FADED_NOIR: FilmPreset = {
   id: 'faded-noir',
-  name: 'Faded Noir',
+  name: 'Noir',
   category: 'Moody & Cinematic',
   description: 'Heavily lifted blacks, desaturated, moody atmosphere. Film noir meets modern.',
   useCase: 'Moody portraits, urban decay, rainy days, introspective work',
@@ -725,7 +725,7 @@ const FADED_NOIR: FilmPreset = {
 
 const TRI_X_400: FilmPreset = {
   id: 'tri-x-400',
-  name: 'Tri-X 400',
+  name: 'Tri-X',
   category: 'Black & White',
   description: 'Kodak\'s classic B&W film. High midtone contrast, gritty grain, punchy tonal range.',
   useCase: 'Street, documentary, photojournalism, gritty portraits',
@@ -780,7 +780,7 @@ const TRI_X_400: FilmPreset = {
 
 const SILVER_GELATIN: FilmPreset = {
   id: 'silver-gelatin',
-  name: 'Silver Gelatin',
+  name: 'Gelatin',
   category: 'Black & White',
   description: 'Smooth fine-art B&W. Full tonal range, subtle grain, elegant shadow detail. Inspired by HP5.',
   useCase: 'Fine art, architecture, nature, long exposure, studio',
@@ -852,7 +852,7 @@ const SILVER_GELATIN: FilmPreset = {
  */
 const ZONE_SYSTEM: FilmPreset = {
   id: 'zone-system',
-  name: 'Zone System',
+  name: 'Zone',
   category: 'Black & White',
   description: 'Ansel Adams — Full tonal range, 10-zone precision. Deep blacks with shadow texture. Faint selenium shadow tone.',
   useCase: 'Landscapes, architecture, long exposure, fine-art prints, any scene with rich tonal range',
@@ -895,7 +895,7 @@ const ZONE_SYSTEM: FilmPreset = {
  */
 const DECISIVE_MOMENT: FilmPreset = {
   id: 'decisive-moment',
-  name: 'Decisive Moment',
+  name: 'Decisive',
   category: 'Black & White',
   description: 'Henri Cartier-Bresson — Honest documentary rendering. Natural luminosity, moderate contrast, classic 35mm grain.',
   useCase: 'Street, reportage, documentary, candid, everyday life',
@@ -936,7 +936,7 @@ const DECISIVE_MOMENT: FilmPreset = {
  */
 const BIBLICAL_SHADOW: FilmPreset = {
   id: 'biblical-shadow',
-  name: 'Biblical Shadow',
+  name: 'Biblical',
   category: 'Black & White',
   description: 'Sebastião Salgado — Extreme contrast, impenetrable shadows, luminous highlights. Epic, monumental.',
   useCase: 'Dramatic portraits, rugged landscapes, labour, epic scenes, strong directional light',
@@ -983,7 +983,7 @@ const BIBLICAL_SHADOW: FilmPreset = {
  */
 const ARBUS_FLAT: FilmPreset = {
   id: 'arbus-flat',
-  name: 'Arbus Flat',
+  name: 'Arbus',
   category: 'Black & White',
   description: 'Diane Arbus — Clinical flat tones, lifted blacks, grey everything. Subjects are exposed, nowhere to hide.',
   useCase: 'Intimate portraits, social documentary, street, confrontational subjects, flash photography',
@@ -1031,7 +1031,7 @@ const ARBUS_FLAT: FilmPreset = {
  */
 const PLATINUM_GRADIENT: FilmPreset = {
   id: 'platinum-gradient',
-  name: 'Platinum Gradient',
+  name: 'Platinum',
   category: 'Black & White',
   description: 'Edward Weston — Buttery smooth gradients, platinum/palladium warmth. Organic textures are perfection.',
   useCase: 'Still life, nudes, macro, natural textures, shells, rock, foliage, sculptural subjects',
@@ -1078,7 +1078,7 @@ const PLATINUM_GRADIENT: FilmPreset = {
  */
 const GRAPHIC_FASHION: FilmPreset = {
   id: 'graphic-fashion',
-  name: 'Graphic Fashion',
+  name: 'Graphic',
   category: 'Black & White',
   description: 'Helmut Newton — Graphic high-contrast. Skin glows, shadows are black pools. Bold fashion tonality.',
   useCase: 'Fashion, glamour, nude portraits, urban architecture, strong contrast scenes',
@@ -1114,7 +1114,7 @@ const GRAPHIC_FASHION: FilmPreset = {
 
 const AUTUMN_PALETTE: FilmPreset = {
   id: 'autumn-palette',
-  name: 'Autumn Palette',
+  name: 'Autumn',
   category: 'Creative',
   description: 'Enhances warm earth tones, rich oranges and reds, muted greens shifting to gold.',
   useCase: 'Fall foliage, autumn portraits, warm nature, harvest scenes',
@@ -1179,7 +1179,7 @@ const AUTUMN_PALETTE: FilmPreset = {
 
 const CROSS_PROCESS: FilmPreset = {
   id: 'cross-process',
-  name: 'Cross Process',
+  name: 'Cross',
   category: 'Creative',
   description: 'Slide film developed in C-41 chemistry. Wild color shifts, high contrast, unpredictable.',
   useCase: 'Creative, experimental, lo-fi, retro, fun snapshots',
@@ -1246,7 +1246,7 @@ const CROSS_PROCESS: FilmPreset = {
 
 const ALPINE_CLARITY: FilmPreset = {
   id: 'alpine-clarity',
-  name: 'Alpine Clarity',
+  name: 'Alpine',
   category: 'Landscape',
   description: 'Minimalist high-contrast clarity. Clean whites, deep shadows, razor-sharp tonal separation. Mountain, lake, snow.',
   useCase: 'Mountains, alpine lakes, snow, minimalist compositions, any light',
@@ -1304,7 +1304,7 @@ const ALPINE_CLARITY: FilmPreset = {
 
 const DESERT_GLOW: FilmPreset = {
   id: 'desert-glow',
-  name: 'Desert Glow',
+  name: 'Desert',
   category: 'Landscape',
   description: 'Warm earth palette, dramatic contrast, golden highlights. Built for harsh midday light and sand/rock textures.',
   useCase: 'Desert, canyons, sand dunes, arid landscapes, midday sun',
@@ -1363,7 +1363,7 @@ const DESERT_GLOW: FilmPreset = {
 
 const NORDIC_BLUE: FilmPreset = {
   id: 'nordic-blue',
-  name: 'Nordic Blue',
+  name: 'Nordic',
   category: 'Landscape',
   description: 'Cool atmospheric blue hour tones, ethereal lifted shadows. Overcast and twilight specialist.',
   useCase: 'Blue hour, overcast skies, fog, Nordic/Scandinavian landscapes, moody water',
@@ -1427,7 +1427,7 @@ const NORDIC_BLUE: FilmPreset = {
 
 const DEEP_FOREST: FilmPreset = {
   id: 'deep-forest',
-  name: 'Deep Forest',
+  name: 'Forest',
   category: 'Landscape',
   description: 'Rich emerald greens, deep organic shadows, lush canopy feel. Forest and jungle specialist.',
   useCase: 'Forests, jungles, trails, waterfalls, fern close-ups, moss',
@@ -1487,7 +1487,7 @@ const DEEP_FOREST: FilmPreset = {
 
 const COASTAL_DRAMA: FilmPreset = {
   id: 'coastal-drama',
-  name: 'Coastal Drama',
+  name: 'Coastal',
   category: 'Landscape',
   description: 'Moody teal water, dramatic sky contrast, deep blacks. Seascapes and coastal rock formations.',
   useCase: 'Ocean, sea cliffs, lighthouses, coastal long exposure, rocky shores',
@@ -1555,7 +1555,7 @@ const COASTAL_DRAMA: FilmPreset = {
 
 const CLEAN_MINIMAL: FilmPreset = {
   id: 'clean-minimal',
-  name: 'Clean Minimal',
+  name: 'Minimal',
   category: 'Portrait',
   description: 'Ultra-clean, true-to-life skin. Barely there color grading — lets the subject speak. Minimalist philosophy.',
   useCase: 'Clean headshots, minimal portraits, studio, natural light, editorial minimalism',
@@ -1613,7 +1613,7 @@ const CLEAN_MINIMAL: FilmPreset = {
 
 const STUDIO_POWER: FilmPreset = {
   id: 'studio-power',
-  name: 'Studio Power',
+  name: 'Studio',
   category: 'Portrait',
   description: 'High contrast dramatic studio look. Deep blacks, bright skin, powerful tonal separation. Fashion and commercial.',
   useCase: 'Studio portraits, fashion, headshots with dramatic lighting, commercial',
@@ -1846,7 +1846,7 @@ const BLUE_HOUR: FilmPreset = {
 
 const SUNRISE_CRIMSON: FilmPreset = {
   id: 'sunrise-crimson',
-  name: 'Sunrise Crimson',
+  name: 'Crimson',
   category: 'Landscape',
   description: 'Pre-dawn deep reds, crimson clouds, dark silhouetted ground. Maximum drama at first light.',
   useCase: 'Pre-dawn, volcanic sky, crimson sunrise, dramatic red clouds',
@@ -1930,7 +1930,7 @@ const OVERCAST_MOOD: FilmPreset = {
 
 const WINTER_WHITE: FilmPreset = {
   id: 'winter-white',
-  name: 'Winter White',
+  name: 'Winter',
   category: 'Landscape',
   description: 'Icy cold, high-key minimalism. Snow becomes pure white, shadows turn steel blue. Clean and stark.',
   useCase: 'Snow, ice, frozen lakes, winter mountains, frost, white landscapes',
@@ -2015,7 +2015,7 @@ const MONSOON_GREEN: FilmPreset = {
 
 const CANYON_RED: FilmPreset = {
   id: 'canyon-red',
-  name: 'Canyon Red',
+  name: 'Canyon',
   category: 'Landscape',
   description: 'Warm terracotta and sandstone reds. Deep shadow crevices, strong texture contrast. US Southwest aesthetic.',
   useCase: 'Canyons, red rock, Utah/Arizona, desert arches, sandstone cliffs, arid textures',
@@ -2058,7 +2058,7 @@ const CANYON_RED: FilmPreset = {
 
 const OCEAN_HORIZON: FilmPreset = {
   id: 'ocean-horizon',
-  name: 'Ocean Horizon',
+  name: 'Ocean',
   category: 'Landscape',
   description: 'Clean two-tone seascape. Pure blue water, white sky, minimal visual noise. Calm and graphic.',
   useCase: 'Open ocean, flat water, minimalist seascapes, horizon shots, boats',
@@ -2100,7 +2100,7 @@ const OCEAN_HORIZON: FilmPreset = {
 
 const VELVET_NIGHT: FilmPreset = {
   id: 'velvet-night',
-  name: 'Velvet Night',
+  name: 'Velvet',
   category: 'Landscape',
   description: 'Dark, rich, mysterious. Deep purples and inky blacks, pinpoint light sources glow. Night landscape, stargazing.',
   useCase: 'Night landscapes, Milky Way, stargazing, dark forests at night, campfire',
@@ -2146,7 +2146,7 @@ const VELVET_NIGHT: FilmPreset = {
 
 const DARK_MOODY_PORTRAIT: FilmPreset = {
   id: 'dark-moody-portrait',
-  name: 'Dark & Moody',
+  name: 'Moody',
   category: 'Portrait',
   description: 'Low-key drama. Deep shadows, slightly lifted blacks, cool tones. Powerful and introspective.',
   useCase: 'Dramatic portraits, moody men\'s fashion, introspective, low-key studio, dark backgrounds',
@@ -2188,7 +2188,7 @@ const DARK_MOODY_PORTRAIT: FilmPreset = {
 
 const AIRY_LIGHT: FilmPreset = {
   id: 'airy-light',
-  name: 'Airy & Light',
+  name: 'Airy',
   category: 'Portrait',
   description: 'High-key, bright, airy. Whites are pure, shadows barely exist. Celebratory, fresh, optimistic.',
   useCase: 'Wedding, celebration, newborn, children, bright outdoor, white studio',
@@ -2230,7 +2230,7 @@ const AIRY_LIGHT: FilmPreset = {
 
 const EARTH_TONE_PORTRAIT: FilmPreset = {
   id: 'earth-tone-portrait',
-  name: 'Earth Tones',
+  name: 'Earth',
   category: 'Portrait',
   description: 'Warm, grounded, natural. Earthy palette with gentle desaturation. Works across all skin tones in outdoor light.',
   useCase: 'Outdoor natural light, environmental portraits, documentary, lifestyle, autumn sessions',
@@ -2273,7 +2273,7 @@ const EARTH_TONE_PORTRAIT: FilmPreset = {
 
 const SILVER_SHADOW: FilmPreset = {
   id: 'silver-shadow',
-  name: 'Silver Shadow',
+  name: 'Shadow',
   category: 'Portrait',
   description: 'Cool steel tones, silver highlights, precise tonal separation. Modern commercial and fashion.',
   useCase: 'Commercial, tech brands, corporate headshots, modern fashion, grey seamless',
@@ -2315,7 +2315,7 @@ const SILVER_SHADOW: FilmPreset = {
 
 const VINTAGE_FADE: FilmPreset = {
   id: 'vintage-fade',
-  name: 'Vintage Fade',
+  name: 'Vintage',
   category: 'Portrait',
   description: 'Faded warm film nostalgia. Lifted shadows, slight yellow-orange cast, muted blues. Instagram-era photography.',
   useCase: 'Vintage-inspired, nostalgic, casual portraits, street, lifestyle, film-inspired',
@@ -2403,7 +2403,7 @@ const STREET_PORTRAIT: FilmPreset = {
 
 const PURE_LIGHT: FilmPreset = {
   id: 'pure-light',
-  name: 'Pure Light',
+  name: 'Pure',
   category: 'Minimalist',
   description: 'Extreme minimalism. Almost invisible grading — just tonal polish. Clean whites, gentle shadow lift, nothing more.',
   useCase: 'Architecture, product, fine art, any minimalist composition',
@@ -2452,7 +2452,7 @@ const PURE_LIGHT: FilmPreset = {
 
 const QUIET_CONTRAST: FilmPreset = {
   id: 'quiet-contrast',
-  name: 'Quiet Contrast',
+  name: 'Quiet',
   category: 'Minimalist',
   description: 'High contrast meets desaturation. Dramatic tonal separation with muted, almost monochrome colors. Powerful and restrained.',
   useCase: 'Minimalist art, architecture, street, conceptual, any subject with strong shapes',
@@ -2513,7 +2513,7 @@ const QUIET_CONTRAST: FilmPreset = {
 
 const SUBTLE_TONE: FilmPreset = {
   id: 'subtle-tone',
-  name: 'Subtle Tone',
+  name: 'Subtle',
   category: 'Minimalist',
   description: 'Barely-there warm polish. The "invisible edit" — images look professionally finished without obvious grading.',
   useCase: 'Real estate, product, wedding delivery, any subject needing polish without personality',
