@@ -20,10 +20,19 @@ const TILE_OUT = TILE_IN * SCALE; // 200
 const MAX_INPUT_DIM = 1080; // long-edge cap before upscaling (perf vs quality)
 const YIELD_EVERY   = 8;    // yield to UI thread every N tiles
 
+// Model download fallback — tried in order when the bundled asset is unavailable
+const MODEL_URLS = [
+  // tensorflow/examples repo (same ESRGAN 50×50→200×200 model)
+  'https://raw.githubusercontent.com/tensorflow/examples/master/lite/examples/super_resolution/android/app/src/main/assets/ESRGAN.tflite',
+];
+// Cached on first download — never re-downloaded unless cache is corrupt
+const MODEL_CACHE = `${FileSystem.cacheDirectory}esrgan_model.tflite`;
+
 // ─── Public types ─────────────────────────────────────────────────────────────
 
 export type UpscalePhase =
-  | 'loading'     // loading TFLite model
+  | 'downloading' // one-time model download (~6 MB)
+  | 'loading'     // loading TFLite model into memory
   | 'resizing'    // preparing input image
   | 'processing'  // running tile inference
   | 'stitching'   // assembling output
@@ -83,18 +92,57 @@ export async function upscaleImage(
   onProgress: (p: UpscaleProgress) => void,
 ): Promise<string> {
 
-  // ── 1. Load TFLite model ──────────────────────────────────────────────────
+  // ── 1. Load TFLite model (3-path fallback) ───────────────────────────────
   onProgress({ phase: 'loading', tile: 0, totalTiles: 0 });
 
-  let model: TensorflowModel;
+  let model!: TensorflowModel;
+
+  // Path A: bundled asset (CI successfully downloaded & embedded it)
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     model = await loadTensorflowModel(require('../../assets/models/esrgan.tflite'));
-  } catch (e: any) {
-    throw new Error(
-      'AI model unavailable. The ESRGAN model was not bundled with this build. ' +
-      'Trigger a fresh CI build so the model downloads and bundles correctly.',
-    );
+  } catch { /* not bundled — fall through */ }
+
+  // Path B: previously cached download
+  if (!model) {
+    try {
+      const info = await FileSystem.getInfoAsync(MODEL_CACHE);
+      if (info.exists && (info as any).size > 1_000_000) {
+        model = await loadTensorflowModel({ url: MODEL_CACHE });
+      }
+    } catch { /* cache corrupt — fall through */ }
+  }
+
+  // Path C: download from network, then cache for all future runs
+  if (!model) {
+    onProgress({ phase: 'downloading', tile: 0, totalTiles: 0 });
+    let downloadOk = false;
+    for (const url of MODEL_URLS) {
+      try {
+        const result = await FileSystem.downloadAsync(url, MODEL_CACHE);
+        if (result.status === 200) {
+          const info = await FileSystem.getInfoAsync(MODEL_CACHE);
+          if (info.exists && (info as any).size > 1_000_000) {
+            downloadOk = true;
+            break;
+          }
+        }
+      } catch { /* try next URL */ }
+    }
+    if (!downloadOk) {
+      throw new Error(
+        'Could not download the AI model (~6 MB). ' +
+        'Please check your internet connection and try again.',
+      );
+    }
+    onProgress({ phase: 'loading', tile: 0, totalTiles: 0 });
+    try {
+      model = await loadTensorflowModel({ url: MODEL_CACHE });
+    } catch (e: any) {
+      // Cache corrupt after download — delete so next attempt re-downloads
+      await FileSystem.deleteAsync(MODEL_CACHE, { idempotent: true });
+      throw new Error('Downloaded model failed to load. Try again.');
+    }
   }
 
   try {
@@ -241,12 +289,13 @@ export async function upscaleImage(
 /** Human-readable label for each phase shown in the progress UI. */
 export function phaseLabel(phase: UpscalePhase): string {
   switch (phase) {
-    case 'loading':    return 'Loading AI model…';
-    case 'resizing':   return 'Preparing image…';
-    case 'processing': return 'Running super-resolution…';
-    case 'stitching':  return 'Assembling output…';
-    case 'saving':     return 'Saving…';
-    case 'done':       return 'Done';
+    case 'downloading': return 'Downloading AI model (~6 MB)…';
+    case 'loading':     return 'Loading AI model…';
+    case 'resizing':    return 'Preparing image…';
+    case 'processing':  return 'Running super-resolution…';
+    case 'stitching':   return 'Assembling output…';
+    case 'saving':      return 'Saving…';
+    case 'done':        return 'Done';
   }
 }
 

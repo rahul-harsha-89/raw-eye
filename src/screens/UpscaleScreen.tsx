@@ -88,6 +88,7 @@ export default function UpscaleScreen() {
   // ── Progress fraction ─────────────────────────────────────────────────────
   const progressFraction: number = (() => {
     const { phase, tile, totalTiles } = progress;
+    if (phase === 'downloading') return 0.01;
     if (phase === 'loading')    return 0.02;
     if (phase === 'resizing')   return 0.05;
     if (phase === 'processing') return totalTiles > 0 ? 0.05 + (tile / totalTiles) * 0.85 : 0.05;
