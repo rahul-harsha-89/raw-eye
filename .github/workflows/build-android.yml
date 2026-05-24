@@ -44,12 +44,28 @@ jobs:
       - name: Download ESRGAN TFLite model
         run: |
           mkdir -p assets/models
-          curl -L "https://storage.googleapis.com/tfhub-lite-models/captain-pool/lite-model/esrgan-tf2/1/default/1.tflite" \
-            -o assets/models/esrgan.tflite \
-            --max-time 120 \
-            --fail \
-            && echo "Model downloaded: $(du -sh assets/models/esrgan.tflite)" \
-            || (echo "WARNING: ESRGAN model download failed — upscaler will be unavailable" && touch assets/models/esrgan.tflite)
+          PRIMARY="https://storage.googleapis.com/tfhub-lite-models/captain-pool/lite-model/esrgan-tf2/1/default/1.tflite"
+          MIRROR="https://huggingface.co/datasets/rahul-harsha-89/esrgan/resolve/main/esrgan.tflite"
+          SUCCESS=false
+          for URL in "$PRIMARY" "$MIRROR"; do
+            echo "Trying: $URL"
+            if curl -L "$URL" -o assets/models/esrgan.tflite --max-time 300 --retry 3 --retry-delay 10 --fail; then
+              SIZE=$(wc -c < assets/models/esrgan.tflite)
+              if [ "$SIZE" -gt 1000000 ]; then
+                echo "Model OK: $(du -sh assets/models/esrgan.tflite)"
+                SUCCESS=true
+                break
+              else
+                echo "File too small ($SIZE bytes) — trying next source"
+              fi
+            else
+              echo "Download failed — trying next source"
+            fi
+          done
+          if [ "$SUCCESS" = false ]; then
+            echo "ERROR: Could not download ESRGAN model from any source."
+            exit 1
+          fi
 
       - name: Build APK (local, no quota used)
         run: eas build --local --platform android --profile preview --non-interactive

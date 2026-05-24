@@ -31,7 +31,7 @@ interface ExportStoreState {
 
 export const useExportStore = create<ExportStoreState>((set) => ({
   format: 'jpeg',
-  quality: 95,
+  quality: 98,
   resolution: 'original',
   targetWidth: 0,
   targetHeight: 0,

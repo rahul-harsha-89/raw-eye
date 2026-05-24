@@ -210,10 +210,23 @@ export default function ExportScreen() {
             <View style={styles.resolutionGrid}>
               {EXPORT_SIZES.map((size) => {
                 const isSelected = size.key === activeSize.key;
-                // For Original, show actual source dimensions + MP count
-                const badge = size.key === 'original' && imageWidth > 0
-                  ? `${imageWidth} × ${imageHeight}  ·  ${((imageWidth * imageHeight) / 1_000_000).toFixed(1)} MP`
-                  : size.badge;
+                // Compute actual output dimensions for this size + source image
+                const badge = (() => {
+                  if (!imageWidth || !imageHeight) return size.badge;
+                  if (size.key === 'original') {
+                    return `${imageWidth} × ${imageHeight}  ·  ${((imageWidth * imageHeight) / 1_000_000).toFixed(1)} MP  ·  full res`;
+                  }
+                  if (size.targetWidth > 0 && size.targetHeight > 0) {
+                    const fitScale = Math.min(size.targetWidth / imageWidth, size.targetHeight / imageHeight);
+                    const scale = Math.min(fitScale, 1.0);
+                    const outW = Math.round(imageWidth * scale);
+                    const outH = Math.round(imageHeight * scale);
+                    const mp = ((outW * outH) / 1_000_000).toFixed(1);
+                    const tag = scale >= 1.0 ? 'no resize' : `${outW} × ${outH}  ·  ${mp} MP`;
+                    return tag;
+                  }
+                  return size.badge;
+                })();
                 return (
                   <Pressable
                     key={size.key}
