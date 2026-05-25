@@ -115,15 +115,18 @@ export async function renderFullResExport(
     }
     // ────────────────────────────────────────────────────────────────────
 
-    // Create off-screen surface — tries ideal size, halves if OOM (low-end devices)
+    // Create off-screen surface.
+    // If ideal size fails (GPU OOM), fall back to max-4096-long-edge — never below that.
+    // Avoids the old binary-halving loop that could silently produce 768×882 from a 43MP source.
     let outW = idealW;
     let outH = idealH;
-    let surface = null;
-    for (let attempt = 0; attempt < 4; attempt++) {
+    let surface = Skia.Surface.Make(outW, outH);
+    if (!surface) {
+      const MAX_SAFE = 4096;
+      const s = Math.min(MAX_SAFE / outW, MAX_SAFE / outH, 1.0);
+      outW = Math.max(1, Math.round(outW * s));
+      outH = Math.max(1, Math.round(outH * s));
       surface = Skia.Surface.Make(outW, outH);
-      if (surface) break;
-      outW = Math.max(1, Math.round(outW * 0.5));
-      outH = Math.max(1, Math.round(outH * 0.5));
     }
     if (!surface) return null;
 
@@ -143,13 +146,15 @@ export async function renderFullResExport(
       const cropScale = Math.min(cropFitScale, 1.0);
       outW = Math.max(1, Math.round(cropSrcW * cropScale));
       outH = Math.max(1, Math.round(cropSrcH * cropScale));
-      // Recreate surface with correct crop dimensions
-      surface = null;
-      for (let attempt = 0; attempt < 4; attempt++) {
+      // Recreate surface with correct crop dimensions.
+      // Same OOM guard as the main path — single scale to max-4096-long-edge.
+      surface = Skia.Surface.Make(outW, outH);
+      if (!surface) {
+        const MAX_SAFE = 4096;
+        const s = Math.min(MAX_SAFE / outW, MAX_SAFE / outH, 1.0);
+        outW = Math.max(1, Math.round(outW * s));
+        outH = Math.max(1, Math.round(outH * s));
         surface = Skia.Surface.Make(outW, outH);
-        if (surface) break;
-        outW = Math.max(1, Math.round(outW * 0.5));
-        outH = Math.max(1, Math.round(outH * 0.5));
       }
       if (!surface) return null;
     }
