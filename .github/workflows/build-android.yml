@@ -46,8 +46,8 @@ jobs:
           mkdir -p assets/models
           # Try multiple sources. Model is ~5.8 MB (50×50→200×200 ESRGAN super-resolution).
           URLS=(
-            "https://storage.googleapis.com/tfhub-lite-models/captain-pool/lite-model/esrgan-tf2/1/default/1.tflite"
-            "https://github.com/tensorflow/examples/raw/master/lite/examples/super_resolution/android/app/src/main/assets/ESRGAN.tflite"
+            "https://media.githubusercontent.com/media/tensorflow/examples/master/lite/examples/super_resolution/android/app/src/main/assets/ESRGAN.tflite"
+            "https://raw.githubusercontent.com/google-ai-edge/mediapipe-samples/main/examples/super_resolution/android/app/src/main/assets/ESRGAN.tflite"
           )
           SUCCESS=false
           for URL in "${URLS[@]}"; do

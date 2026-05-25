@@ -20,10 +20,14 @@ const TILE_OUT = TILE_IN * SCALE; // 200
 const MAX_INPUT_DIM = 1080; // long-edge cap before upscaling (perf vs quality)
 const YIELD_EVERY   = 8;    // yield to UI thread every N tiles
 
-// Model download fallback — tried in order when the bundled asset is unavailable
+// Model download fallback — tried in order when the bundled asset is unavailable.
+// raw.githubusercontent.com returns a 140-byte Git LFS pointer for this file — must use
+// media.githubusercontent.com which serves the actual LFS content.
 const MODEL_URLS = [
-  // tensorflow/examples repo (same ESRGAN 50×50→200×200 model)
-  'https://raw.githubusercontent.com/tensorflow/examples/master/lite/examples/super_resolution/android/app/src/main/assets/ESRGAN.tflite',
+  // Git LFS media endpoint (serves actual file content for LFS-tracked assets)
+  'https://media.githubusercontent.com/media/tensorflow/examples/master/lite/examples/super_resolution/android/app/src/main/assets/ESRGAN.tflite',
+  // Direct TFLite model from Google AI Edge samples (non-LFS)
+  'https://raw.githubusercontent.com/google-ai-edge/mediapipe-samples/main/examples/super_resolution/android/app/src/main/assets/ESRGAN.tflite',
 ];
 // Cached on first download — never re-downloaded unless cache is corrupt
 const MODEL_CACHE = `${FileSystem.cacheDirectory}esrgan_model.tflite`;
